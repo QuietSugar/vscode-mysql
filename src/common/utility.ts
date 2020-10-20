@@ -3,9 +3,9 @@ import * as asciitable from "asciitable";
 import * as fs from "fs";
 import * as mysql from "mysql";
 import * as vscode from "vscode";
+import *  as path from "path";
 import { IConnection } from "../model/connection";
 import { SqlResultWebView } from "../sqlResultWebView";
-import { AppInsightsClient } from "./appInsightsClient";
 import { Global } from "./global";
 import { OutputChannel } from "./outputChannel";
 
@@ -30,17 +30,14 @@ export class Utility {
     }
 
     public static async runQuery(sql?: string, connectionOptions?: IConnection) {
-        AppInsightsClient.sendEvent("runQuery.start");
         if (!sql && !vscode.window.activeTextEditor) {
             vscode.window.showWarningMessage("No SQL file selected");
-            AppInsightsClient.sendEvent("runQuery.noFile");
             return;
         }
         if (!connectionOptions && !Global.activeConnection) {
             const hasActiveConnection = await Utility.hasActiveConnection();
             if (!hasActiveConnection) {
                 vscode.window.showWarningMessage("No MySQL Server or Database selected");
-                AppInsightsClient.sendEvent("runQuery.noMySQL");
                 return;
             }
         }
@@ -65,7 +62,7 @@ export class Utility {
                 if (rows.some(((row) => Array.isArray(row)))) {
                     rows.forEach((row, index) => {
                         if (Array.isArray(row)) {
-                             Utility.showQueryResult(row, "Results " + (index + 1));
+                            Utility.showQueryResult(row, "Results " + (index + 1));
                         } else {
                             OutputChannel.appendLine(JSON.stringify(row));
                         }
@@ -80,9 +77,9 @@ export class Utility {
 
             if (err) {
                 OutputChannel.appendLine(err);
-                AppInsightsClient.sendEvent("runQuery.end", { Result: "Fail", ErrorMessage: err });
+                console.log("runQuery.end Success", { Result: "Fail", ErrorMessage: err })
             } else {
-                AppInsightsClient.sendEvent("runQuery.end", { Result: "Success" });
+                console.log("runQuery.end Success")
             }
             OutputChannel.appendLine("[Done] Finished MySQL query.");
         });
@@ -133,6 +130,25 @@ export class Utility {
     private static sleep(ms) {
         return new Promise((resolve) => {
             setTimeout(resolve, ms);
+        });
+    }
+
+    /**
+     * 从某个HTML文件读取能被Webview加载的HTML内容
+     * @param {*} context 上下文
+     * @param {*} templatePath 相对于插件根目录的html文件相对路径
+     */
+    public static getWebViewContent(context, templatePath) {
+        const resourcePath = path.join(context.extensionPath, templatePath);
+        const dirPath = path.dirname(resourcePath);
+        let html = fs.readFileSync(resourcePath, 'utf-8');
+        // 替换
+        return Utility.replaceResource(html, dirPath);;
+    }
+    // vscode不支持直接加载本地资源，需要替换成其专有路径格式，这里只是简单的将样式和JS的路径替换
+    private static replaceResource(html: string, dirPath: string): string {
+        return html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g, (m, $1, $2) => {
+            return $1 + vscode.Uri.file(path.resolve(dirPath, $2)).with({ scheme: 'vscode-resource' }).toString() + '"';
         });
     }
 }

@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as mysql from "mysql";
 import * as path from "path";
 import * as vscode from "vscode";
-import { AppInsightsClient } from "../common/appInsightsClient";
 import { Global } from "../common/global";
 import { Utility } from "../common/utility";
 import { InfoNode } from "./infoNode";
@@ -46,7 +45,6 @@ export class DatabaseNode implements INode {
     }
 
     public async newQuery() {
-        AppInsightsClient.sendEvent("newQuery", { viewItem: "database" });
         Utility.createSQLTextDocument();
 
         Global.activeConnection = {

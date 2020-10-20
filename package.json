@@ -74,7 +74,26 @@
                 "category": "MySQL"
             },
             {
+                "command": "auto.home",
+                "title": "打开主页",
+                "icon": {
+                    "light": "resources/light/home.svg",
+                    "dark": "resources/dark/home.svg"
+                },
+                "category": "MySQL"
+            },
+            {
                 "command": "mysql.selectTop1000",
+                "title": "Select Top 1000",
+                "category": "MySQL"
+            },
+            {
+                "command": "mysql.aiCode",
+                "title": "生成代码",
+                "category": "MySQL"
+            },
+            {
+                "command": "mysql",
                 "title": "Select Top 1000",
                 "category": "MySQL"
             }
@@ -95,6 +114,11 @@
                 }
             ],
             "view/title": [
+                {
+                    "command": "auto.home",
+                    "when": "view == mysql",
+                    "group": "navigation@1"
+                },
                 {
                     "command": "mysql.addConnection",
                     "when": "view == mysql",
@@ -133,6 +157,11 @@
                     "group": "mysql@0"
                 },
                 {
+                    "command": "mysql.aiCode",
+                    "when": "view == mysql && viewItem == table",
+                    "group": "mysql@0"
+                },
+                {
                     "command": "mysql.refresh",
                     "when": "view == mysql && viewItem == table",
                     "group": "mysql@1"
@@ -143,6 +172,11 @@
             "type": "object",
             "title": "MySQL",
             "properties": {
+                "vscodePluginDemo.yourName": {
+                    "type": "string",
+                    "default": "guest",
+                    "description": "你的名字"
+                },
                 "vscode-mysql.enableTelemetry": {
                     "type": "boolean",
                     "default": true,
@@ -173,7 +207,6 @@
         "vscode": "^1.1.6"
     },
     "dependencies": {
-        "applicationinsights": "^1.0.0",
         "asciitable": "0.0.7",
         "mysql": "^2.15.0",
         "uuid": "^3.1.0"
