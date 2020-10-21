@@ -17,6 +17,7 @@ export class Utility {
     }
 
     public static queryPromise<T>(connection, sql: string): Promise<T> {
+        console.log("run sql : ",sql)
         return new Promise((resolve, reject) => {
             connection.query(sql, (err, rows) => {
                 if (err) {

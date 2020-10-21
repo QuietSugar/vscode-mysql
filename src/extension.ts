@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     WelcomeWebView.init(context);
 
-    const  agCode  =  new AgCode();
+    const agCode = new AgCode();
 
     agCode.init(context);
 
@@ -41,16 +41,13 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand("mysql.newQuery", (databaseOrConnectionNode: DatabaseNode | ConnectionNode) => {
         databaseOrConnectionNode.newQuery();
     }));
-    
+
     context.subscriptions.push(vscode.commands.registerCommand("auto.home", () => {
         vscode.window.showInformationMessage('您执行了 auto.home 命令！');
     }));
     context.subscriptions.push(vscode.commands.registerCommand("mysql.selectTop1000", (tableNode: TableNode) => {
         tableNode.selectTop1000();
     }));
-
-
-    mysqlTreeDataProvider.refresh();
 
 }
 

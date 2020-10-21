@@ -7,12 +7,15 @@ import { Utility } from "../common/utility";
 import { ColumnNode } from "./columnNode";
 import { InfoNode } from "./infoNode";
 import { INode } from "./INode";
-import {AgCode} from "../pages/agCode"
+import { AgCode } from "../pages/agCode"
 
 export class TableNode implements INode {
+
+    public columnList: any[];
+
     constructor(private readonly host: string, private readonly user: string, private readonly password: string,
-                private readonly port: string, private readonly database: string, private readonly table: string,
-                private readonly certPath: string) {
+        private readonly port: string, private readonly database: string, public readonly table: string,
+        private readonly certPath: string) {
     }
 
     public getTreeItem(): vscode.TreeItem {
@@ -35,10 +38,10 @@ export class TableNode implements INode {
         });
 
         return Utility.queryPromise<any[]>(connection, `SELECT * FROM information_schema.columns WHERE table_schema = '${this.database}' AND table_name = '${this.table}';`)
-            .then((columns) => {
-                return columns.map<ColumnNode>((column) => {
-                let a =     new ColumnNode(this.host, this.user, this.password, this.port, this.database, column );
-                    return  a;
+            .then((columns: any[]) => {
+                this.columnList = columns;
+                return columns.map<ColumnNode>((column: any) => {
+                    return new ColumnNode(this.host, this.user, this.password, this.port, this.database, column);
                 });
             })
             .catch((err) => {

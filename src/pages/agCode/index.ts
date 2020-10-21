@@ -2,11 +2,13 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import *  as path from "path";
 import { TableNode } from "../../model/tableNode";
+import { ColumnNode } from "../../model/columnNode";
 import { Utility } from "../../common/utility";
+import { MySQLTreeDataProvider } from "../../mysqlTreeDataProvider";
 // 主要功能页
 export class AgCode {
     tableNode: TableNode;
-
+ 
     /**
      * 执行回调函数
      * @param {*} panel 
@@ -33,7 +35,7 @@ export class AgCode {
     };
 
 
-    public init(context: vscode.ExtensionContext) {
+    public init(context: vscode.ExtensionContext ) { 
         context.subscriptions.push(
             vscode.commands.registerCommand(
                 "mysql.aiCode",
@@ -60,7 +62,18 @@ export class AgCode {
                         }
                     }, undefined, context.subscriptions);
 
-                    console.log('tableNode', tableNode);
+    
+
+                    tableNode.columnList .map ((column: any) => {
+                        console.log(' column.COLUMN_NAME  ',column.COLUMN_NAME);
+                        console.log(' column.COLUMN_TYPE  ',column.COLUMN_TYPE);
+                        console.log(' column.COLUMN_COMMENT  ',column.COLUMN_COMMENT);
+                    });
+
+                 
+                    // tableNode.getChildren().then((p:ColumnNode[])=>{
+                    //     console.log('tableNode.getChildren====',  p );
+                    // })
                     // console.log("tableNode", tableNode);
                     // Utility.createSQLTextDocument();
                     // Global.activeConnection = {
