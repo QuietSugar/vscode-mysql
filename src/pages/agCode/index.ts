@@ -6,6 +6,8 @@ import { ColumnNode } from "../../model/columnNode";
 import { TableInfo, ColumnInfo } from "../../model/tableInfo";
 import { Utility } from "../../common/utility";
 import { MySQLTreeDataProvider } from "../../mysqlTreeDataProvider";
+import { Logger } from '../../common/logger';
+const logger = Logger.instance;
 // 主要功能页
 export class AgCode {
     private tableNode: TableNode;
@@ -19,7 +21,7 @@ export class AgCode {
      * @param {*} resp 
      */
     public invokeCallback(panel, message, resp) {
-        console.log('回调消息：', resp);
+        logger.debug('回调消息：', resp);
         // 错误码在400-600之间的，默认弹出错误提示
         if (typeof resp == 'object' && resp.code && resp.code >= 400 && resp.code < 600) {
             vscode.window.showErrorMessage(resp.message || '发生未知错误！');
@@ -75,16 +77,16 @@ export class AgCode {
                     panel.webview.html = Utility.getWebViewContent(context, 'src/pages/agCode/agCode.html');
                     panel.webview.onDidReceiveMessage(
                         message => {
-                            console.log("收到消息:", message)
+                            logger.debug("收到消息:", message)
                             this.messageHandler(message, global)
                         }
                         , undefined, context.subscriptions);
 
 
                     // tableNode.getChildren().then((p:ColumnNode[])=>{
-                    //     console.log('tableNode.getChildren====',  p );
+                    //     logger.debug('tableNode.getChildren====',  p );
                     // })
-                    // console.log("tableNode", tableNode);
+                    // logger.debug("tableNode", tableNode);
                     // Utility.createSQLTextDocument();
                     // Global.activeConnection = {
                     //     host: this.host,

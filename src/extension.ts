@@ -1,6 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { Utility } from "./common/utility";
+import { HttpUtil } from "./common/httpUtils";
 import { ConnectionNode } from "./model/connectionNode";
 import { DatabaseNode } from "./model/databaseNode";
 import { INode } from "./model/INode";
@@ -8,11 +9,17 @@ import { TableNode } from "./model/tableNode";
 import { MySQLTreeDataProvider } from "./mysqlTreeDataProvider";
 import { WelcomeWebView } from "./pages/welcome";
 import { AgCode } from "./pages/agCode";
-
+import { Logger } from './common/logger';
+const logger = Logger.instance;
 
 export function activate(context: vscode.ExtensionContext) {
 
-    console.log('扩展激活！');
+
+    HttpUtil.get("http://trace-test.bangbangas.com/backend2/index/info");
+
+
+
+    logger.debug('扩展激活！');
     const mysqlTreeDataProvider = new MySQLTreeDataProvider(context);
     context.subscriptions.push(vscode.window.registerTreeDataProvider("mysql", mysqlTreeDataProvider));
 
@@ -52,5 +59,5 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
-    console.log('扩展销毁！');
+    logger.debug('扩展销毁！');
 }

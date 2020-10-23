@@ -23,7 +23,7 @@ window.addEventListener('message', event => {
     const message = event.data;
     switch (message.cmd) {
         case 'vscodeCallback':
-            console.log(message.data);
+            logger.debug(message.data);
             (callbacks[message.cbid] || function () { })(message.data);
             delete callbacks[message.cbid];
             break;
@@ -40,7 +40,7 @@ new Vue({
     },
     mounted() {
         this.time = this.getTime();
-        console.log("时间", this.time)
+        logger.debug("时间", this.time)
         callVscode({cmd: 'getConfig', key: 'vscodePluginDemo.yourName'}, userName => this.userName = userName);
         callVscode({cmd: 'getConfig', key: 'vscodePluginDemo.showTip'}, show => this.show = show);
     },

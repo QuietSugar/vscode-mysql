@@ -23,7 +23,7 @@ window.addEventListener('message', event => {
     const message = event.data;
     switch (message.cmd) {
         case 'vscodeCallback':
-            console.log(message.data);
+            logger.debug(message.data);
             (callbacks[message.cbid] || function () { })(message.data);
             delete callbacks[message.cbid];
             break;
@@ -35,22 +35,26 @@ window.addEventListener('message', event => {
 /**
  * 表信息
  */
-function setTableInfo() { 
-    // https://blog.csdn.net/xr510002594/article/details/82734011
-    let template = `
+function getTableInfoHtml(data) {
+
+    return `
     <div>
+        <label for="male">表名:${data.tableName}</label> 
         <table>
             <tr>
-                <th>id</th>
-                <th>content</th>
-                <th>status</th>
-                <th>description</th>
-                <th>create_time</th>
+                <th>字段名称</th>
+                <th>字段类型</th>
+                <th>注释</th>
             </tr>
-            <tr>
-                <% for(let i=0; i < data.columnList.length; i++) { %>
-                    <td><%= data.columnList[i] } %></td>
-            </tr>
+            ${data.columnList.map(item => {
+        return `
+                <tr>
+                <td>${item.columnName}</td>
+                <td>${item.columnType}</td>
+                <td>${item.columnComment}</td>
+                </tr>`
+    }).join('')}    
+            
         </table>
     </div>
     `;
@@ -58,10 +62,6 @@ function setTableInfo() {
 
 
 
-    callVscode({ cmd: 'getTableInfo' }, response => {
-        console.log('response',JSON.stringify(response))
-        // $("#columnList").append("<option value='Value'>Text</option>");
-    });
 
 }
 
@@ -70,14 +70,15 @@ function setTableInfo() {
  * 初始化
  */
 function init() {
-    console.log('agCode init 开始')
+    logger.debug('agCode init 开始')
     callVscode({ cmd: 'getTableInfo' }, response => {
-        console.log('response',JSON.stringify(response))
+        logger.debug('response', JSON.stringify(response))
         // $("#columnList").append("<option value='Value'>Text</option>");
+        $("#tableInfo").html(getTableInfoHtml(response));
     });
 
 }
 
 init();
-// console.log("选择的code", $("#code").text());
+// logger.debug("选择的code", $("#code").text());
 // $("#code").text("Dolly Duck");

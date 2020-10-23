@@ -8,6 +8,8 @@ import { IConnection } from "../model/connection";
 import { SqlResultWebView } from "../sqlResultWebView";
 import { Global } from "./global";
 import { OutputChannel } from "./outputChannel";
+import { Logger } from '../common/logger';
+const logger = Logger.instance;
 
 export class Utility {
     public static readonly maxTableCount = Utility.getConfiguration().get<number>("maxTableCount");
@@ -17,7 +19,7 @@ export class Utility {
     }
 
     public static queryPromise<T>(connection, sql: string): Promise<T> {
-        console.log("run sql : ",sql)
+        logger.debug("run sql : ",sql)
         return new Promise((resolve, reject) => {
             connection.query(sql, (err, rows) => {
                 if (err) {
@@ -78,9 +80,9 @@ export class Utility {
 
             if (err) {
                 OutputChannel.appendLine(err);
-                console.log("runQuery.end Success", { Result: "Fail", ErrorMessage: err })
+                logger.debug("runQuery.end Success", { Result: "Fail", ErrorMessage: err })
             } else {
-                console.log("runQuery.end Success")
+                logger.debug("runQuery.end Success")
             }
             OutputChannel.appendLine("[Done] Finished MySQL query.");
         });
@@ -89,7 +91,7 @@ export class Utility {
 
     public static async createSQLTextDocument(sql: string = "") {
         const textDocument = await vscode.workspace.openTextDocument({ content: sql, language: "sql" });
-        return vscode.window.showTextDocument(textDocument);
+        return vscode.window.showTextDocument(textDocument,vscode.ViewColumn.One);
     }
 
     public static createConnection(connectionOptions: IConnection): any {

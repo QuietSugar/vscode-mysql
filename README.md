@@ -1,3 +1,4 @@
+[vscode 插件开发教程中文文档](https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/)
 [vscode 插件开发教程](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)
 
 # MySQL

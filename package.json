@@ -209,7 +209,9 @@
     },
     "dependencies": {
         "asciitable": "0.0.7",
+        "log4js": "^6.3.0",
         "mysql": "^2.15.0",
-        "uuid": "^3.1.0"
+        "uuid": "^3.1.0",
+        "velocityjs": "^2.0.2"
     }
 }
