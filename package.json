@@ -59,6 +59,15 @@
                 "category": "MySQL"
             },
             {
+                "command": "mysql.addTemplate",
+                "title": "添加模板",
+                "icon": {
+                    "light": "resources/light/add.svg",
+                    "dark": "resources/dark/add.svg"
+                },
+                "category": "MySQL"
+            },
+            {
                 "command": "mysql.deleteConnection",
                 "title": "Delete Connection",
                 "category": "MySQL"
@@ -121,6 +130,11 @@
                 },
                 {
                     "command": "mysql.addConnection",
+                    "when": "view == mysql",
+                    "group": "navigation@1"
+                },
+                {
+                    "command": "mysql.addTemplate",
                     "when": "view == mysql",
                     "group": "navigation@1"
                 }

@@ -14,7 +14,7 @@ export class WelcomeWebView {
      * @param {*} resp 
      */
     public static invokeCallback(panel, message, resp) {
-        logger.debug('回调消息：', resp);
+        logger.debug('回调消息：{}', resp);
         // 错误码在400-600之间的，默认弹出错误提示
         if (typeof resp == 'object' && resp.code && resp.code >= 400 && resp.code < 600) {
             vscode.window.showErrorMessage(resp.message || '发生未知错误！');

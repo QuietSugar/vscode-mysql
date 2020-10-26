@@ -28,7 +28,7 @@ export class AgCode {
      * @param {*} resp 
      */
     public invokeCallback(panel, message, resp) {
-        logger.debug('回调消息：', resp);
+        logger.debug('回调消息：{}', resp);
         // 错误码在400-600之间的，默认弹出错误提示
         if (typeof resp == 'object' && resp.code && resp.code >= 400 && resp.code < 600) {
             vscode.window.showErrorMessage(resp.message || '发生未知错误！');
@@ -86,9 +86,10 @@ export class AgCode {
 
 
     /**
-       * 增加模板
-       */
-    public async addTemplateList(name: string, content: string) {
+     * 
+     * 增加模板
+     */
+    public async addTemplate(name: string, content: string) {
         let templateList = this.context.globalState.get<{ [key: string]: ITemplate }>(Constants.GlobalStateTemplateVelocity);
 
         if (!templateList) {
@@ -102,15 +103,30 @@ export class AgCode {
         };
         await this.context.globalState.update(Constants.GlobalStateTemplateVelocity, templateList);
     }
+    /**
+     * 通过命令行添加模板
+     */
+    public async addTemplateByCommand() {
+        const name = await vscode.window.showInputBox({ prompt: "模板名称", placeHolder: "模板名称", ignoreFocusOut: true });
+        if (!name) {
+            return;
+        }
 
+        const content = await vscode.window.showInputBox({ prompt: "模板内容", placeHolder: "模板内容", ignoreFocusOut: true });
+        if (!content) {
+            return;
+        }
+        this.addTemplate(name, content);
+    }
+
+    public async deleteAll() {
+        await this.context.globalState.update(Constants.GlobalStateTemplateVelocity, {});
+    }
 
     public init(context: vscode.ExtensionContext) {
         this.context = context;
 
-
-        this.addTemplateList("id1", "模板内容");
-
-
+        // this.deleteAll();
         context.subscriptions.push(
             vscode.commands.registerCommand(
                 "mysql.aiCode",

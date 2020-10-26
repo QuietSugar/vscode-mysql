@@ -36,6 +36,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand("mysql.addConnection", () => {
         mysqlTreeDataProvider.addConnection();
     }));
+    context.subscriptions.push(vscode.commands.registerCommand("mysql.addTemplate", () => {
+        // 通过命令行添加模板
+        agCode.addTemplateByCommand();
+    }));
 
     context.subscriptions.push(vscode.commands.registerCommand("mysql.deleteConnection", (connectionNode: ConnectionNode) => {
         connectionNode.deleteConnection(context, mysqlTreeDataProvider);

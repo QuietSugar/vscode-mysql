@@ -23,7 +23,7 @@ window.addEventListener('message', event => {
     const message = event.data;
     switch (message.cmd) {
         case 'vscodeCallback':
-            console.log(message.data);
+            console.log('message.data: {}',message.data);
             (callbacks[message.cbid] || function () { })(message.data);
             delete callbacks[message.cbid];
             break;
@@ -35,23 +35,17 @@ window.addEventListener('message', event => {
 /**
  * 申请创建结果页面,显示生成内容
  */
-function click() {
+function genClick() {
     console.log('点击按钮========');
-
-    callVscode({ cmd: 'getTableInfo' }, response => {
-        $("#tableInfo").html(getTableInfoHtml(response));
-    });
-
-    if (typeof data === 'string') {
-        data = { cmd: data };
-    }
-    if (cb) {
-        // 时间戳加上5位随机数
-        const cbid = Date.now() + '' + Math.round(Math.random() * 100000);
-        callbacks[cbid] = cb;
-        data.cbid = cbid;
-    }
-    vscode.postMessage(data);
+    //获取选中项的 value
+    var itemValue1 = $("#templateList").val();
+    console.log('获取选中项的 value:' + itemValue1);
+    //获取选中项的文本值
+    var itemText = $("#templateList option:selected").text();
+    console.log('获取选中项的文本值:' + itemText);
+    //获取属性 content 的值
+    var iteValue = $("#templateList").find("option:selected").attr("content");
+    console.log('获取属性 content 的值:' + iteValue);
 }
 
 /**
@@ -85,7 +79,7 @@ function getTableInfoHtml(data) {
  * 初始化
  */
 function init() {
-    console.log('agCode init 开始')
+    console.log('agCode init ...')
     // 获取表的信息
     callVscode({ cmd: 'getTableInfo' }, response => {
         $("#tableInfo").html(getTableInfoHtml(response));
@@ -93,7 +87,7 @@ function init() {
     // 获取模板的信息
     callVscode({ cmd: 'getTemplateList' }, response => {
         response.map(item => {
-            $("#templateList").append(`<option value='${item.name}'>${item.name}</option>`);
+            $("#templateList").append(`<option value='${item.name}' content='${item.content}'>${item.name}</option>`);
         })
     });
 }
