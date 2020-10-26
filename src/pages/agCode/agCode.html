@@ -24,23 +24,16 @@
 <body>
 
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+
         <div>
-            <label for="columnList">选择模板</label>
-            <select name="columnList" id="columnList">
+            <label for="templateList">选择模板</label>
+            <select name="templateList" id="templateList">
             </select>
+            <button type="button" id="dropdownMenuButton" onclick="click()">
+                生成
+            </button>
         </div>
         <div id="tableInfo">
-
-
         </div>
     </div>
     <script src="../../lib/jquery/jquery.min.js"></script>

@@ -23,7 +23,7 @@ window.addEventListener('message', event => {
     const message = event.data;
     switch (message.cmd) {
         case 'vscodeCallback':
-            logger.debug(message.data);
+            console.log(message.data);
             (callbacks[message.cbid] || function () { })(message.data);
             delete callbacks[message.cbid];
             break;
@@ -33,10 +33,31 @@ window.addEventListener('message', event => {
 
 
 /**
+ * 申请创建结果页面,显示生成内容
+ */
+function click() {
+    console.log('点击按钮========');
+
+    callVscode({ cmd: 'getTableInfo' }, response => {
+        $("#tableInfo").html(getTableInfoHtml(response));
+    });
+
+    if (typeof data === 'string') {
+        data = { cmd: data };
+    }
+    if (cb) {
+        // 时间戳加上5位随机数
+        const cbid = Date.now() + '' + Math.round(Math.random() * 100000);
+        callbacks[cbid] = cb;
+        data.cbid = cbid;
+    }
+    vscode.postMessage(data);
+}
+
+/**
  * 表信息
  */
 function getTableInfoHtml(data) {
-
     return `
     <div>
         <label for="male">表名:${data.tableName}</label> 
@@ -53,16 +74,10 @@ function getTableInfoHtml(data) {
                 <td>${item.columnType}</td>
                 <td>${item.columnComment}</td>
                 </tr>`
-    }).join('')}    
-            
+    }).join('')}
         </table>
     </div>
     `;
-
-
-
-
-
 }
 
 
@@ -70,15 +85,16 @@ function getTableInfoHtml(data) {
  * 初始化
  */
 function init() {
-    logger.debug('agCode init 开始')
+    console.log('agCode init 开始')
+    // 获取表的信息
     callVscode({ cmd: 'getTableInfo' }, response => {
-        logger.debug('response', JSON.stringify(response))
-        // $("#columnList").append("<option value='Value'>Text</option>");
         $("#tableInfo").html(getTableInfoHtml(response));
     });
-
+    // 获取模板的信息
+    callVscode({ cmd: 'getTemplateList' }, response => {
+        response.map(item => {
+            $("#templateList").append(`<option value='${item.name}'>${item.name}</option>`);
+        })
+    });
 }
-
 init();
-// logger.debug("选择的code", $("#code").text());
-// $("#code").text("Dolly Duck");
