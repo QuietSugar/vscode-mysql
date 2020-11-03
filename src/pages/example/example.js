@@ -23,7 +23,7 @@ window.addEventListener('message', event => {
     const message = event.data;
     switch (message.cmd) {
         case 'vscodeCallback':
-            console.log('message.data: {}', message.data);
+            console.log('message.data: {}',message.data);
             (callbacks[message.cbid] || function () { })(message.data);
             delete callbacks[message.cbid];
             break;
@@ -46,16 +46,6 @@ function genClick() {
     //获取属性 content 的值
     var iteValue = $("#templateList").find("option:selected").attr("content");
     console.log('获取属性 content 的值:' + iteValue);
-
-    // 获取模板的信息
-    callVscode({
-        cmd: 'genByVelocity',
-        data: {
-            templateId: itemValue1
-        },
-    }, response => {
-        console.log(response);
-    });
 }
 
 /**
@@ -97,7 +87,7 @@ function init() {
     // 获取模板的信息
     callVscode({ cmd: 'getTemplateList' }, response => {
         response.map(item => {
-            $("#templateList").append(`<option name='${item.name}' value='${item.id}' content='${item.content}'>${item.name}</option>`);
+            $("#templateList").append(`<option value='${item.name}' content='${item.content}'>${item.name}</option>`);
         })
     });
 }

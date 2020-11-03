@@ -1,64 +1,33 @@
 "use strict";
 import * as vscode from "vscode";
-import { Utility } from "./common/utility";
+
 import { HttpUtil } from "./common/httpUtils";
-import { ConnectionNode } from "./model/connectionNode";
-import { DatabaseNode } from "./model/databaseNode";
-import { INode } from "./model/INode";
-import { TableNode } from "./model/tableNode";
-import { MySQLTreeDataProvider } from "./mysqlTreeDataProvider";
+ 
+
 import { WelcomeWebView } from "./pages/welcome";
-import { AgCode } from "./pages/agCode";
+import { DatabaseService } from "./service/databaseService";
+import { Example } from "./pages/example";
 import { Logger } from './common/logger';
+import { TemplateService } from "./service/templateService";
 const logger = Logger.instance;
 
 export function activate(context: vscode.ExtensionContext) {
-
-
+    logger.debug('扩展激活！');
     HttpUtil.get("http://trace-test.bangbangas.com/backend2/index/info");
 
-
-
-    logger.debug('扩展激活！');
-    const mysqlTreeDataProvider = new MySQLTreeDataProvider(context);
-    context.subscriptions.push(vscode.window.registerTreeDataProvider("mysql", mysqlTreeDataProvider));
-
+    let databaseService = new DatabaseService(context);
+    let templateService: TemplateService = new TemplateService(context);
+    databaseService.init();
+    templateService.init();
+ 
     WelcomeWebView.init(context);
 
-    const agCode = new AgCode();
-
-    agCode.init(context);
-
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.refresh", (node: INode) => {
-        mysqlTreeDataProvider.refresh(node);
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.addConnection", () => {
-        mysqlTreeDataProvider.addConnection();
-    }));
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.addTemplate", () => {
-        // 通过命令行添加模板
-        agCode.addTemplateByCommand();
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.deleteConnection", (connectionNode: ConnectionNode) => {
-        connectionNode.deleteConnection(context, mysqlTreeDataProvider);
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.runQuery", () => {
-        Utility.runQuery();
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.newQuery", (databaseOrConnectionNode: DatabaseNode | ConnectionNode) => {
-        databaseOrConnectionNode.newQuery();
-    }));
+    const example = new Example();
 
     context.subscriptions.push(vscode.commands.registerCommand("auto.home", () => {
         vscode.window.showInformationMessage('您执行了 auto.home 命令！');
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("mysql.selectTop1000", (tableNode: TableNode) => {
-        tableNode.selectTop1000();
-    }));
+
 
 }
 

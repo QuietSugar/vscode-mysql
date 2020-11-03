@@ -1,9 +1,11 @@
 [vscode 插件开发教程中文文档](https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/)
-[vscode 插件开发教程](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)
+[vscode 插件开发教程](http://blog.haoji.me/vscode-plugin-overview.html)
+
+
 
 # MySQL
 
-[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version-short/formulahendry.vscode-mysql.svg)](https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/formulahendry.vscode-mysql.svg)](https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql) [![Rating](https://vsmarketplacebadge.apphb.com/rating-short/formulahendry.vscode-mysql.svg)](https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql) [![Build Status](https://travis-ci.org/formulahendry/vscode-mysql.svg?branch=master)](https://travis-ci.org/formulahendry/vscode-mysql)
+[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version-short/formulahendry.code-assistant.svg)](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-assistant) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/formulahendry.code-assistant.svg)](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-assistant) [![Rating](https://vsmarketplacebadge.apphb.com/rating-short/formulahendry.code-assistant.svg)](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-assistant) [![Build Status](https://travis-ci.org/formulahendry/code-assistant.svg?branch=master)](https://travis-ci.org/formulahendry/code-assistant)
 
 MySQL management tool
 
@@ -37,14 +39,14 @@ MySQL management tool
 
 ## Settings
 
-* `vscode-mysql.maxTableCount`: The maximum table count shown in the tree view. (Default is **500**)
+* `code-assistant.maxTableCount`: The maximum table count shown in the tree view. (Default is **500**)
 
 ## Telemetry data
 
 By default, anonymous telemetry data collection is turned on to understand user behavior to improve this extension. To disable it, update the settings.json as below:
 ```json
 {
-    "vscode-mysql.enableTelemetry": false
+    "code-assistant.enableTelemetry": false
 }
 ```
 
@@ -54,4 +56,4 @@ See Change Log [here](CHANGELOG.md)
 
 ## Issues
 
-Currently, the extension is in the very initial phase. If you find any bug or have any suggestion/feature request, please submit the [issues](https://github.com/formulahendry/vscode-mysql/issues) to the GitHub Repo.
+Currently, the extension is in the very initial phase. If you find any bug or have any suggestion/feature request, please submit the [issues](https://github.com/formulahendry/code-assistant/issues) to the GitHub Repo.

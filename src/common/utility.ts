@@ -1,5 +1,4 @@
 "use strict";
-import * as asciitable from "asciitable";
 import * as fs from "fs";
 import * as mysql from "mysql";
 import * as vscode from "vscode";
@@ -15,7 +14,7 @@ export class Utility {
     public static readonly maxTableCount = Utility.getConfiguration().get<number>("maxTableCount");
 
     public static getConfiguration(): vscode.WorkspaceConfiguration {
-        return vscode.workspace.getConfiguration("vscode-mysql");
+        return vscode.workspace.getConfiguration("code-assistant");
     }
 
     public static queryPromise<T>(connection, sql: string): Promise<T> {
@@ -32,8 +31,8 @@ export class Utility {
         });
     }
 
-    public static async runQuery(sql?: string, connectionOptions?: IConnection) {
-        if (!sql && !vscode.window.activeTextEditor) {
+    public static async runQuery(sql: string, connectionOptions?: IConnection) {
+        if (!sql) {
             vscode.window.showWarningMessage("No SQL file selected");
             return;
         }
@@ -45,15 +44,6 @@ export class Utility {
             }
         }
 
-        if (!sql) {
-            const activeTextEditor = vscode.window.activeTextEditor;
-            const selection = activeTextEditor.selection;
-            if (selection.isEmpty) {
-                sql = activeTextEditor.document.getText();
-            } else {
-                sql = activeTextEditor.document.getText(selection);
-            }
-        }
 
         connectionOptions = connectionOptions ? connectionOptions : Global.activeConnection;
         connectionOptions.multipleStatements = true;

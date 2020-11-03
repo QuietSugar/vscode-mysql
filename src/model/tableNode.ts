@@ -7,7 +7,7 @@ import { Utility } from "../common/utility";
 import { ColumnNode } from "./columnNode";
 import { InfoNode } from "./infoNode";
 import { INode } from "./INode";
-import { AgCode } from "../pages/agCode"
+import { DatabaseService } from "../service/databaseService"
 
 export class TableNode implements INode {
 

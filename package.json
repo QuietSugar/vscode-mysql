@@ -1,9 +1,9 @@
 {
-    "name": "vscode-mysql",
-    "displayName": "MySQL",
-    "description": "MySQL management tool",
-    "version": "0.4.0",
-    "publisher": "formulahendry",
+    "name": "code-assistant",
+    "displayName": "代码助手",
+    "description": "常用功能,提升写代码的速度",
+    "version": "0.0.1",
+    "publisher": "xu",
     "icon": "logo.png",
     "engines": {
         "vscode": "^1.30.0"
@@ -20,67 +20,72 @@
         "RDBMS"
     ],
     "bugs": {
-        "url": "https://github.com/formulahendry/vscode-mysql/issues",
+        "url": "https:// /code-assistant/issues",
         "email": "formulahendry@gmail.com"
     },
-    "homepage": "https://github.com/formulahendry/vscode-mysql/blob/master/README.md",
+    "homepage": "https:// /code-assistant/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/formulahendry/vscode-mysql.git"
+        "url": "https://地址"
     },
     "activationEvents": [
-        "onView:mysql",
-        "onCommand:mysql.addConnection",
-        "onCommand:mysql.runQuery"
+        "onView:codeAssistant.database",
+        "onCommand:database.addConnection",
+        "onCommand:database.runQuery"
     ],
     "main": "./out/extension",
     "contributes": {
         "views": {
-            "explorer": [
+            "explorer": [],
+            "codeAssistant": [
                 {
-                    "id": "mysql",
-                    "name": "MySQL"
+                    "id": "codeAssistant.database",
+                    "name": "数据库"
+                },
+                {
+                    "id": "codeAssistant.template",
+                    "name": "模板"
                 }
             ]
         },
         "commands": [
             {
-                "command": "mysql.refresh",
+                "command": "database.refresh",
                 "title": "Refresh",
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.addConnection",
+                "command": "database.addConnection",
                 "title": "Add Connection",
                 "icon": {
                     "light": "resources/light/add.svg",
                     "dark": "resources/dark/add.svg"
                 },
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.addTemplate",
+                "command": "template.addTemplate",
                 "title": "添加模板",
                 "icon": {
                     "light": "resources/light/add.svg",
                     "dark": "resources/dark/add.svg"
                 },
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.deleteConnection",
+                "command": "database.deleteConnection",
                 "title": "Delete Connection",
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.runQuery",
+                "command": "database.runQuery",
                 "title": "Run MySQL Query",
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.newQuery",
+                "command": "database.newQuery",
                 "title": "New Query",
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
                 "command": "auto.home",
@@ -89,27 +94,22 @@
                     "light": "resources/light/home.svg",
                     "dark": "resources/dark/home.svg"
                 },
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.selectTop1000",
+                "command": "database.selectTop1000",
                 "title": "Select Top 1000",
-                "category": "MySQL"
+                "category": "CodeAssistant"
             },
             {
-                "command": "mysql.aiCode",
+                "command": "template.aiCode",
                 "title": "生成代码",
-                "category": "MySQL"
-            },
-            {
-                "command": "mysql",
-                "title": "Select Top 1000",
-                "category": "MySQL"
+                "category": "CodeAssistant"
             }
         ],
         "keybindings": [
             {
-                "command": "mysql.runQuery",
+                "command": "database.runQuery",
                 "key": "ctrl+alt+e",
                 "when": "editorLangId == sql"
             }
@@ -117,7 +117,7 @@
         "menus": {
             "editor/context": [
                 {
-                    "command": "mysql.runQuery",
+                    "command": "database.runQuery",
                     "when": "editorLangId == sql",
                     "group": "navigation"
                 }
@@ -125,60 +125,69 @@
             "view/title": [
                 {
                     "command": "auto.home",
-                    "when": "view == mysql",
+                    "when": "view == codeAssistant.database",
                     "group": "navigation@1"
                 },
                 {
-                    "command": "mysql.addConnection",
-                    "when": "view == mysql",
+                    "command": "database.addConnection",
+                    "when": "view == codeAssistant.database",
                     "group": "navigation@1"
                 },
                 {
-                    "command": "mysql.addTemplate",
-                    "when": "view == mysql",
+                    "command": "template.addTemplate",
+                    "when": "view == codeAssistant.template",
                     "group": "navigation@1"
                 }
             ],
             "view/item/context": [
                 {
-                    "command": "mysql.newQuery",
-                    "when": "view == mysql && viewItem == connection",
+                    "command": "database.newQuery",
+                    "when": "view == codeAssistant.database && viewItem == connection",
                     "group": "mysql@1"
                 },
                 {
-                    "command": "mysql.refresh",
-                    "when": "view == mysql && viewItem == connection",
+                    "command": "database.refresh",
+                    "when": "view == codeAssistant.database && viewItem == connection",
                     "group": "mysql@1"
                 },
                 {
-                    "command": "mysql.deleteConnection",
-                    "when": "view == mysql && viewItem == connection",
+                    "command": "database.deleteConnection",
+                    "when": "view == codeAssistant.database && viewItem == connection",
                     "group": "mysql@2"
                 },
                 {
-                    "command": "mysql.newQuery",
-                    "when": "view == mysql && viewItem == database",
+                    "command": "database.newQuery",
+                    "when": "view == codeAssistant.database && viewItem == database",
                     "group": "mysql@0"
                 },
                 {
-                    "command": "mysql.refresh",
-                    "when": "view == mysql && viewItem == database",
+                    "command": "database.refresh",
+                    "when": "view == codeAssistant.database && viewItem == database",
                     "group": "mysql@1"
                 },
                 {
-                    "command": "mysql.selectTop1000",
-                    "when": "view == mysql && viewItem == table",
+                    "command": "database.selectTop1000",
+                    "when": "view == codeAssistant.database && viewItem == table",
                     "group": "mysql@0"
                 },
                 {
-                    "command": "mysql.aiCode",
-                    "when": "view == mysql && viewItem == table",
+                    "command": "template.aiCode",
+                    "when": "view == database && viewItem == table",
                     "group": "mysql@0"
                 },
                 {
-                    "command": "mysql.refresh",
-                    "when": "view == mysql && viewItem == table",
+                    "command": "database.refresh",
+                    "when": "view == codeAssistant.database && viewItem == table",
                     "group": "mysql@1"
+                }
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "codeAssistant",
+                    "title": "开发辅助",
+                    "icon": "images/codeAssistant.svg"
                 }
             ]
         },
@@ -191,12 +200,12 @@
                     "default": "guest",
                     "description": "你的名字"
                 },
-                "vscode-mysql.enableTelemetry": {
+                "code-assistant.enableTelemetry": {
                     "type": "boolean",
                     "default": true,
                     "description": "Whether to enable anonymous usage collection."
                 },
-                "vscode-mysql.maxTableCount": {
+                "code-assistant.maxTableCount": {
                     "type": "integer",
                     "default": 500,
                     "description": "The maximum table count shown in the tree view"
