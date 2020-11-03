@@ -31,9 +31,9 @@ export class DatabaseService {
     public init() {
         this.context.subscriptions.push(
             vscode.commands.registerCommand(
-                "template.aiCode",
+                "newPage.tableInfo",
                 (tableNode: TableNode) => {
-                    vscode.window.showInformationMessage('您执行了template.aiCode 命令！');
+                    vscode.window.showInformationMessage('您执行了newPage.tableInfo 命令！');
                     if (!tableNode.columnList) {
                         tableNode.getChildren();
                     }
@@ -48,7 +48,7 @@ export class DatabaseService {
                             enableScripts: true, // 启用JS，默认禁用
                         }
                     );
-                    panel.webview.html = Utility.getWebViewContent(context, 'src/pages/agCode/agCode.html');
+                    panel.webview.html = Utility.getWebViewContent(this.context, 'src/pages/agCode/agCode.html');
                     panel.webview.onDidReceiveMessage(
                         message => {
                             logger.debug("收到消息:", message)

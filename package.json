@@ -102,7 +102,7 @@
                 "category": "CodeAssistant"
             },
             {
-                "command": "template.aiCode",
+                "command": "newPage.tableInfo",
                 "title": "生成代码",
                 "category": "CodeAssistant"
             }
@@ -171,8 +171,8 @@
                     "group": "mysql@0"
                 },
                 {
-                    "command": "template.aiCode",
-                    "when": "view == database && viewItem == table",
+                    "command": "newPage.tableInfo",
+                    "when": "view == codeAssistant.database && viewItem == table",
                     "group": "mysql@0"
                 },
                 {
