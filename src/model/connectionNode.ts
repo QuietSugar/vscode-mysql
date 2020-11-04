@@ -5,7 +5,7 @@ import * as vscode from "vscode";
 import { Constants } from "../common/constants";
 import { Global } from "../common/global";
 import { Utility } from "../common/utility";
-import { MySQLTreeDataProvider } from "../mysqlTreeDataProvider";
+import { MySQLTreeDataProvider } from "../service/provider/mysqlTreeDataProvider";
 import { IConnection } from "./connection";
 import { DatabaseNode } from "./databaseNode";
 import { InfoNode } from "./infoNode";

@@ -3,7 +3,7 @@ import * as fs from "fs";
 import *  as path from "path";
 import * as uuidv1 from "uuid/v1";
 import { INode } from "../model/INode";
-import { MySQLTreeDataProvider } from "../mysqlTreeDataProvider";
+import { MySQLTreeDataProvider } from "./provider/mysqlTreeDataProvider";
 import { ConnectionNode } from "../model/connectionNode";
 import { DatabaseNode } from "../model/databaseNode";
 
@@ -14,8 +14,8 @@ import { ITemplate } from "../model/template";
 import { TableNode } from "../model/tableNode";
 import { TableInfo, ColumnInfo } from "../model/tableInfo";
 import { Utility } from "../common/utility";
-import { Logger } from '../common/logger';
 import { JavaBeanInfo } from "../model/javaBeanInfo";
+import { Logger } from '../common/logger';
 const logger = Logger.instance;
 // 主要功能页
 export class DatabaseService {

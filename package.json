@@ -30,6 +30,7 @@
     },
     "activationEvents": [
         "onView:codeAssistant.database",
+        "onView:codeAssistant.template",
         "onCommand:database.addConnection",
         "onCommand:database.runQuery"
     ],
@@ -64,7 +65,7 @@
                 "category": "CodeAssistant"
             },
             {
-                "command": "template.addTemplate",
+                "command": "template.add",
                 "title": "添加模板",
                 "icon": {
                     "light": "resources/light/add.svg",
@@ -134,7 +135,7 @@
                     "group": "navigation@1"
                 },
                 {
-                    "command": "template.addTemplate",
+                    "command": "template.add",
                     "when": "view == codeAssistant.template",
                     "group": "navigation@1"
                 }
@@ -224,7 +225,7 @@
     "devDependencies": {
         "@types/keytar": "^4.0.1",
         "@types/mocha": "^2.2.42",
-        "@types/node": "^7.0.43",
+        "@types/node": "^10.14.2",
         "@types/mysql": "^2.15.15",
         "tslint": "^5.8.0",
         "typescript": "^2.6.1",

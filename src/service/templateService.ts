@@ -1,8 +1,9 @@
 import * as vscode from "vscode";
 import * as uuidv1 from "uuid/v1";
+import * as fs from "fs";
 
 import { Constants } from "../common/constants";
-
+import {TemplateTreeDataProvider} from "./provider/templateTreeDataProvider";
 import { ITemplate } from "../model/template";
 import { Logger } from '../common/logger';
 const logger = Logger.instance;
@@ -15,18 +16,42 @@ export class TemplateService {
     };
 
     public init() {
-        this.context.subscriptions.push(vscode.commands.registerCommand("database.addTemplate", () => {
+        this.context.subscriptions.push(vscode.commands.registerCommand("template.add", () => {
             // 通过命令行添加模板
             this.addTemplateByCommand();
         }));
+        // 树形菜单数据
+        const templateTreeDataProvider = new TemplateTreeDataProvider(this.context);
+        this.context.subscriptions.push(vscode.window.registerTreeDataProvider("codeAssistant.template", templateTreeDataProvider));
+
 
     }
-
+    /**
+       * 
+       * 增加模板
+       * GlobalStoragePath
+       */
+    public async addTemplateInGlobalStoragePath(name: string, content: string) {
+        const id = uuidv1();
+        let path = this.context.storagePath + "/template/";
+        let filePath = id + name + ".vm";
+        if (!fs.existsSync(path)) {
+            // 不能存在的时候创建
+            fs.mkdirSync(path, { recursive: true });
+        }
+        fs.writeFile(path + filePath, content, function (error) {
+            if (error) {
+                logger.error('写入失败:{}', error)
+            } else {
+                logger.debug('写入成功了')
+            }
+        });
+    }
 
     /**
     * 获取模板
     */
-    public getTemplateList() {
+    public getTemplateListInGlobalState() {
         let templateList = this.context.globalState.get<{ [key: string]: ITemplate }>(Constants.GlobalStateTemplateVelocity);
         if (!templateList) {
             templateList = {};
@@ -45,8 +70,9 @@ export class TemplateService {
     /**
      * 
      * 增加模板
+     * globalState
      */
-    public async addTemplate(name: string, content: string) {
+    public async addTemplateInGlobalState(name: string, content: string) {
         let templateList = this.context.globalState.get<{ [key: string]: ITemplate }>(Constants.GlobalStateTemplateVelocity);
 
         if (!templateList) {
@@ -76,6 +102,7 @@ export class TemplateService {
         if (!content) {
             return;
         }
-        this.addTemplate(name, content);
+        // this.addTemplateInGlobalState(name, content);
+        this.addTemplateInGlobalStoragePath(name, content);
     }
 }
